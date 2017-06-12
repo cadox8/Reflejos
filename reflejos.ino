@@ -12,7 +12,7 @@ boolean gameOver;
 int csgo; //Ja jaaaaaaaa CounterStrike:GO
 
 void setup() {
-  Serial.begin(9855); //Port? Are we boats now?
+  Serial.begin(9600); //Port? Are we boats now?
   
   pinMode(white, OUTPUT);
   pinMode(green, OUTPUT);
