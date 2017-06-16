@@ -11,6 +11,14 @@ byte gameOver = 0;
 
 int csgo = 0; //Ja jaaaaaaaa CounterStrike:GO
 
+// Sleep when we're dead (ty mcgough6101)
+byte speakerPin = 2;
+
+int length = 10;
+char notes[] = "fefeca a#a "; // El espacio es una parada
+int beats[] = { 4, 1, 1, 1, 1, 1, 1, 2, };
+int tempo = 300;
+
 void setup() {
   Serial.begin(9600); //Port? Are we boats now?
   
@@ -20,6 +28,8 @@ void setup() {
   
   pinMode(pul4, INPUT);
   pinMode(pul12, INPUT);
+
+  pinMode(speakerPin, OUTPUT);
 }
 
 void loop() {
@@ -27,7 +37,8 @@ void loop() {
   if (gameOver == 0) {
     Serial.println("COMIENZA EL JUEGO CUANDO SE APAGUE EL LED BLANCO");
     digitalWrite(white, HIGH);
-    delay(random(11) * 1000); //Set to 11 to get from 0 to 10
+    //delay(random(11) * 1000); //Set to 11 to get from 0 to 10
+    delay(1000); //Tests
     digitalWrite(white, LOW); 
     delay(500);
   }
@@ -65,4 +76,33 @@ void getReck(int player){
   }
   Serial.println("HAS GANADO " + winner + " EN " + csgo + " SEGUNDOS");
   Serial.println("PULSA RESET PARA UN NUEVO JUEGO");
+    for (int i = 0; i < length; i++) {
+    if (notes[i] == ' ') {
+      delay(beats[i] * tempo); // rest
+    } else {
+      playNote(notes[i], beats[i] * tempo);
+    }
+    
+    delay(tempo / 2); //Delay!
+  }
+}
+
+void playTone(int tone, int duration) {
+  for (long i = 0; i < duration * 1000L; i += tone * 2) {
+    digitalWrite(speakerPin, HIGH);
+    delayMicroseconds(tone);
+    digitalWrite(speakerPin, LOW);
+    delayMicroseconds(tone);
+  }
+}
+
+void playNote(char note, int duration) {
+  char names[] = { 'c', 'd', 'd#', 'e', 'f', 'g', 'g#', 'a', 'a#' };
+  int tones[] = { 1915, 1700, 1608, 1519, 1432, 1275, 1205, 1136, 1073 };
+
+  for (int i = 0; i < 8; i++) {
+    if (names[i] == note) {
+      playTone(tones[i], duration);
+    }
+  }
 }
