@@ -37,8 +37,8 @@ void loop() {
   if (gameOver == 0) {
     Serial.println("COMIENZA EL JUEGO CUANDO SE APAGUE EL LED BLANCO");
     digitalWrite(white, HIGH);
-    //delay(random(11) * 1000); //Set to 11 to get from 0 to 10
-    delay(1000); //Tests
+    delay(random(11) * 1000); //Set to 11 to get from 0 to 10
+    //delay(1000); //Tests
     digitalWrite(white, LOW); 
     delay(500);
   }
